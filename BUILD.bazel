@@ -1,0 +1,25 @@
+load("@rules_python//python:pip.bzl", "compile_pip_requirements")
+load("@rules_python//python:defs.bzl", "py_test")
+load("@my_deps//:requirements.bzl", "requirement")
+
+compile_pip_requirements(
+    name = "requirements",
+    extra_args = [
+      "--allow-unsafe"
+    ],
+    requirements_in = "requirements.txt",
+    requirements_txt = "requirements_lock.txt",
+)
+
+py_test(
+    name = "test",
+    srcs = [
+        "test.py",
+    ],
+    deps = [
+        requirement("pytest"),
+        requirement("pytest-pylint"),
+    ],
+    python_version = "PY3",
+    srcs_version = "PY3"
+)
